@@ -12,4 +12,5 @@ const index = () => {
   );
 };
 
+/* actulizando yarn lock */
 export default index;
