@@ -10,7 +10,7 @@ import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import { useRouter } from "next/router";
 import Message from "./Message";
 import MicIcon from "@material-ui/icons/Mic";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import firebase from "firebase";
 import getRecipientEmail from "../utils/getRecipientEmail";
 import TimeAgo from "timeago-react";
@@ -19,6 +19,8 @@ const ChatScreen = ({ chat, mensages }) => {
   const [user] = useAuthState(auth);
   const router = useRouter();
   const [input, setInput] = useState("");
+  const endOfMessageRef = useRef(null);
+
   const [messagesSnapshot] = useCollection(
     db
       .collection("chats")
@@ -26,7 +28,6 @@ const ChatScreen = ({ chat, mensages }) => {
       .collection("messages")
       .orderBy("timestamp", "asc")
   );
-  console.log(getRecipientEmail(chat.users, user));
 
   const [recipientSnapshot] = useCollection(
     db
@@ -51,6 +52,12 @@ const ChatScreen = ({ chat, mensages }) => {
       ));
     }
   };
+  const ScrollToBottom = () => {
+    endOfMessageRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -69,6 +76,7 @@ const ChatScreen = ({ chat, mensages }) => {
     });
 
     setInput("");
+    ScrollToBottom();
   };
   const recipientEmail = getRecipientEmail(chat.users, user);
   const recipient = recipientSnapshot?.docs?.[0]?.data();
@@ -80,7 +88,6 @@ const ChatScreen = ({ chat, mensages }) => {
         ) : (
           <Avatar>{recipientEmail[0]}</Avatar>
         )}
-        <Avatar />
         <HeaderInformations>
           <h3>{recipientEmail}</h3>
           {recipientSnapshot ? (
@@ -107,7 +114,7 @@ const ChatScreen = ({ chat, mensages }) => {
       </Header>
       <MessengeContainer>
         {ShowMessages()}
-        <EndOfMessage />
+        <EndOfMessage ref={endOfMessageRef} />
       </MessengeContainer>
 
       <InputContainer>
@@ -164,7 +171,9 @@ const HeaderInformations = styled.div`
 
 const HeaderIcons = styled.div``;
 
-const EndOfMessage = styled.div``;
+const EndOfMessage = styled.div`
+  margin-bottom: 50px;
+`;
 
 const InputContainer = styled.form`
   display: flex;

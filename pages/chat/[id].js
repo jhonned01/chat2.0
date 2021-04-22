@@ -9,9 +9,6 @@ import getRecipientEmail from "../../utils/getRecipientEmail";
 const Chat = ({ chat, mensages }) => {
   const [user] = useAuthState(auth);
 
-  console.log("=========================xd===========");
-  console.log(chat.users);
-  console.log("====================================");
   return (
     <Container>
       <Head>
@@ -54,7 +51,6 @@ export async function getServerSideProps({ query }) {
     id: chatRes.id,
     ...chatRes.data(),
   };
-  console.log(chat);
   return {
     props: { mensages: JSON.stringify(messages), chat: chat },
   };
