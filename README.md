@@ -1,7 +1,7 @@
 # App de Mensajes
 
 App de Mensajes integrada con Firebase y React para aprender con Next.js SSR
-https://podcast-eta.vercel.app/
+https://chat2-two.vercel.app/
 
 ## Como funciona ?
 
