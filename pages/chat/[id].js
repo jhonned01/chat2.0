@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Head from "next/head";
 import SideBar from "../../components/SideBar/SideBar";
-import ChatScreen from "../../components/chatScreen";
+import ChatScreen from "../../components/ChatScreen";
 import { db, auth } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import getRecipientEmail from "../../utils/getRecipientEmail";
